@@ -2,6 +2,7 @@ import { GridSystem } from "@/components/grid/grid-system"
 import { Grid } from "@/components/grid/grid"
 import { GridCell } from "@/components/grid/grid-cell"
 import { GridCross } from "@/components/grid/grid-cross"
+import { Container } from "@/components/ui/container"
 import { ArrowRight } from "lucide-react"
 
 const testimonials = [
@@ -53,7 +54,8 @@ const testimonials = [
 export function TestimonialsSection() {
   return (
     <section className="bg-black text-white">
-      <GridSystem guideWidth={1} guideColor="rgba(255, 255, 255, 0.1)" className="max-w-[1400px] mx-auto">
+      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+        <Container size="xl">
         <Grid columns={3} rows={3}>
           {/* Section marker - top left */}
           <GridCross column={1} row={1} size={24} position="top-left" />
@@ -92,6 +94,7 @@ export function TestimonialsSection() {
           {/* Section marker - bottom right */}
           <GridCross column={3} row={3} size={24} position="bottom-right" />
         </Grid>
+        </Container>
       </GridSystem>
     </section>
   )

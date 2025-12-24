@@ -47,6 +47,12 @@
   /* Grid system variables */
   --grid-guide-color: rgba(0, 0, 0, 0.08);
   --grid-guide-width: 1px;
+
+  /* Container system - Vercel-style refined widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1152px;
 }
 
 .dark {
@@ -89,8 +95,8 @@
   --shadow-opacity: 0.05;
   --shadow-color: #000000;
 
-  /* Grid system variables for dark mode */
-  --grid-guide-color: rgba(255, 255, 255, 0.1);
+  /* Grid system variables for dark mode - more subtle */
+  --grid-guide-color: rgba(255, 255, 255, 0.06);
 }
 
 @theme inline {

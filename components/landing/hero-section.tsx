@@ -2,13 +2,15 @@ import { GridSystem } from "@/components/grid/grid-system"
 import { Grid } from "@/components/grid/grid"
 import { GridCell } from "@/components/grid/grid-cell"
 import { GridCross } from "@/components/grid/grid-cross"
+import { Container } from "@/components/ui/container"
 import { Button } from "@/components/ui/button"
 
 export function HeroSection() {
   return (
     <section className="relative bg-black text-white">
-      <GridSystem guideWidth={1} guideColor="rgba(255, 255, 255, 0.2)" className="max-w-[1400px] mx-auto">
-        <Grid columns={12} rows={4} height="preserve-aspect-ratio">
+      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+        <Container size="xl">
+          <Grid columns={12} rows={4} height="preserve-aspect-ratio">
           <GridCross column={1} row={1} size={20} position="top-left" />
           <GridCross column={12} row={4} size={20} position="bottom-right" />
 
@@ -24,8 +26,8 @@ export function HeroSection() {
           <GridCell column={12} row="2/4" />
 
           {/* Center solid area spanning columns 2-11 and rows 2-3 */}
-          <GridCell column="2/12" row="2/4" solid className="flex items-center justify-center gap-8 px-8 bg-black">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white whitespace-nowrap">
+          <GridCell column="2/12" row="2/4" solid className="flex items-center justify-center gap-6 px-6 bg-black">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white whitespace-nowrap">
               The teams we empower.
             </h1>
             <Button
@@ -41,6 +43,7 @@ export function HeroSection() {
             <GridCell key={`r4-c${i + 1}`} column={i + 1} row={4} />
           ))}
         </Grid>
+        </Container>
       </GridSystem>
     </section>
   )

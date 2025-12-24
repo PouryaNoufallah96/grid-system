@@ -2,6 +2,7 @@ import { GridSystem } from "@/components/grid/grid-system"
 import { Grid } from "@/components/grid/grid"
 import { GridCell } from "@/components/grid/grid-cell"
 import { GridCross } from "@/components/grid/grid-cross"
+import { Container } from "@/components/ui/container"
 import { RefreshCw, Zap } from "lucide-react"
 
 const features = [
@@ -25,22 +26,24 @@ const features = [
 export function FeaturesSection() {
   return (
     <section className="bg-zinc-950 text-white">
-      <GridSystem guideWidth={1} guideColor="rgba(255, 255, 255, 0.1)" className="max-w-[1400px] mx-auto">
-        <Grid columns={3} rows={1}>
+      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+        <Container size="xl">
+          <Grid columns={3} rows={1}>
           <GridCross column={1} row={1} size={24} position="top-left" />
 
           {features.map((feature, index) => (
-            <GridCell key={feature.title} column={index + 1} row={1} className="p-12 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-zinc-900 border border-white/10 mb-8">
-                <feature.icon className="w-7 h-7 text-white" strokeWidth={1.5} />
+            <GridCell key={feature.title} column={index + 1} row={1} className="p-10 text-center">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 mb-6">
+                <feature.icon className="w-6 h-6 text-white" strokeWidth={1.5} />
               </div>
-              <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
-              <p className="mt-4 text-sm text-gray-400 leading-relaxed max-w-[280px] mx-auto">{feature.description}</p>
+              <h3 className="text-lg font-semibold text-white">{feature.title}</h3>
+              <p className="mt-3 text-sm text-gray-400 leading-relaxed max-w-[280px] mx-auto">{feature.description}</p>
             </GridCell>
           ))}
 
           <GridCross column={3} row={1} size={24} position="bottom-right" />
         </Grid>
+        </Container>
       </GridSystem>
     </section>
   )

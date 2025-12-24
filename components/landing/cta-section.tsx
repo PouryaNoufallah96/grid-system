@@ -2,19 +2,21 @@ import { GridSystem } from "@/components/grid/grid-system"
 import { Grid } from "@/components/grid/grid"
 import { GridCell } from "@/components/grid/grid-cell"
 import { GridCross } from "@/components/grid/grid-cross"
+import { Container } from "@/components/ui/container"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
 export function CTASection() {
   return (
     <section className="bg-black text-white">
-      <GridSystem guideWidth={1} guideColor="rgba(255, 255, 255, 0.1)" className="max-w-[1400px] mx-auto">
+      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+        <Container size="xl">
         <Grid columns={3} rows={1}>
           {/* Section marker - top left */}
           <GridCross column={1} row={1} size={24} position="top-left" />
 
-          <GridCell column="1/3" row={1} solid className="p-10 bg-black">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-balance">
+          <GridCell column="1/3" row={1} solid className="p-8 bg-black">
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight leading-tight text-balance">
               <span className="text-white">Ready to deploy?</span>{" "}
               <span className="text-gray-400">
                 Start building with a free account. Speak to an expert for your{" "}
@@ -23,7 +25,7 @@ export function CTASection() {
               </span>
             </h2>
 
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-6 flex flex-wrap gap-4">
               <Button className="rounded-full bg-white text-black hover:bg-gray-100 px-6">Start Deploying</Button>
               <Button
                 variant="outline"
@@ -35,8 +37,8 @@ export function CTASection() {
           </GridCell>
 
           {/* Right info */}
-          <GridCell column={3} row={1} className="p-10">
-            <p className="text-gray-400 leading-relaxed">
+          <GridCell column={3} row={1} className="p-8">
+            <p className="text-sm text-gray-400 leading-relaxed">
               Take a look around the entire platform, from start to finish. Find out how we can improve your developer
               experience.
             </p>
@@ -52,6 +54,7 @@ export function CTASection() {
           {/* Section marker - bottom right */}
           <GridCross column={3} row={1} size={24} position="bottom-right" />
         </Grid>
+        </Container>
       </GridSystem>
     </section>
   )

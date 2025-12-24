@@ -2,6 +2,7 @@ import { GridSystem } from "@/components/grid/grid-system"
 import { Grid } from "@/components/grid/grid"
 import { GridCell } from "@/components/grid/grid-cell"
 import { GridCross } from "@/components/grid/grid-cross"
+import { Container } from "@/components/ui/container"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Link, Package, Eye, Lock } from "lucide-react"
 
@@ -17,12 +18,13 @@ const templates = [
 export function TemplatesSection() {
   return (
     <section className="bg-black text-white">
-      <GridSystem guideWidth={1} guideColor="rgba(255, 255, 255, 0.1)" className="max-w-[1400px] mx-auto">
+      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+        <Container size="xl">
         <Grid columns={3} rows={5}>
           <GridCross column={1} row={1} size={24} position="top-left" />
 
-          <GridCell column={1} row="1/5" solid className="p-10 bg-black">
-            <h2 className="text-4xl font-bold tracking-tight text-white text-balance">
+          <GridCell column={1} row="1/5" solid className="p-8 bg-black">
+            <h2 className="text-3xl font-bold tracking-tight leading-tight text-white text-balance">
               Deploy your
               <br />
               first app
@@ -30,7 +32,7 @@ export function TemplatesSection() {
               in seconds.
             </h2>
 
-            <ul className="mt-10 space-y-5">
+            <ul className="mt-8 space-y-4">
               <li className="flex items-start gap-3 text-sm text-gray-400">
                 <Link className="w-5 h-5 shrink-0 mt-0.5" />
                 <span>
@@ -111,7 +113,7 @@ export function TemplatesSection() {
           {/* Start Deploying CTA - row 4, col 2 */}
           <GridCell column={2} row={4} className="p-4">
             <div className="rounded-full border border-white/20 p-6 flex items-center justify-between hover:bg-white/5 transition-colors cursor-pointer group h-full">
-              <span className="text-2xl md:text-3xl font-bold text-white">Start Deploying</span>
+              <span className="text-xl md:text-2xl font-bold text-white">Start Deploying</span>
               <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-colors">
                 <ArrowRight className="w-5 h-5" />
               </div>
@@ -141,6 +143,7 @@ export function TemplatesSection() {
 
           <GridCross column={3} row={5} size={24} position="bottom-right" />
         </Grid>
+        </Container>
       </GridSystem>
     </section>
   )
