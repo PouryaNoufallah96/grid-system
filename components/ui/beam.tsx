@@ -1,16 +1,21 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface BeamProps {
-  className?: string
-  direction?: "horizontal" | "vertical"
-  duration?: number
-  delay?: number
+  className?: string;
+  direction?: "horizontal" | "vertical";
+  duration?: number;
+  delay?: number;
 }
 
-export function Beam({ className, direction = "horizontal", duration = 3, delay = 0 }: BeamProps) {
-  const isHorizontal = direction === "horizontal"
+export function Beam({
+  className,
+  direction = "horizontal",
+  duration = 3,
+  delay = 0,
+}: BeamProps) {
+  const isHorizontal = direction === "horizontal";
 
   return (
     <div
@@ -32,23 +37,27 @@ export function Beam({ className, direction = "horizontal", duration = 3, delay 
         }}
       />
     </div>
-  )
+  );
 }
 
 // Animated gradient orb for visual interest
 interface GradientOrbProps {
-  className?: string
-  size?: number
-  color?: string
+  className?: string;
+  size?: number;
+  color?: string;
 }
 
-export function GradientOrb({ className, size = 400, color = "cyan" }: GradientOrbProps) {
+export function GradientOrb({
+  className,
+  size = 400,
+  color = "cyan",
+}: GradientOrbProps) {
   const colorMap: Record<string, string> = {
     cyan: "from-cyan-500/20",
     blue: "from-blue-500/20",
     purple: "from-purple-500/20",
     teal: "from-teal-500/20",
-  }
+  };
 
   return (
     <div
@@ -62,5 +71,5 @@ export function GradientOrb({ className, size = 400, color = "cyan" }: GradientO
         height: size,
       }}
     />
-  )
+  );
 }

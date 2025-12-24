@@ -1,69 +1,79 @@
-import type { CSSProperties, ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react";
 
 // Responsive value type - allows single value or breakpoint-specific values
-export type ResponsiveValue<T> = T | { sm?: T; md?: T; lg?: T }
+export type ResponsiveValue<T> = T | { sm?: T; md?: T; lg?: T };
 
 // Grid position can be a number, "auto", or a span string like "1/3" or "1/-1"
-export type GridPosition = number | "auto" | `${number}/${number}` | `${number}/-${number}` | string
+export type GridPosition =
+  | number
+  | "auto"
+  | `${number}/${number}`
+  | `${number}/-${number}`
+  | string;
 
 // Grid System Props - wraps the entire page with grid context
 export interface GridSystemProps {
-  children: ReactNode
+  children: ReactNode;
   /** Width of grid guide lines in pixels */
-  guideWidth?: number
+  guideWidth?: number;
   /** Color of grid guide lines */
-  guideColor?: string
+  guideColor?: string;
   /** Show debug overlay with grid info */
-  debug?: boolean
+  debug?: boolean;
   /** Custom class name */
-  className?: string
+  className?: string;
 }
 
 // Grid Props - the actual CSS Grid container
 export interface GridProps {
-  children?: ReactNode
+  children?: ReactNode;
   /** Number of columns - can be responsive */
-  columns: ResponsiveValue<number>
+  columns: ResponsiveValue<number>;
   /** Number of rows - can be responsive or "auto" for auto-fill */
-  rows?: ResponsiveValue<number | "auto">
+  rows?: ResponsiveValue<number | "auto">;
   /** Gap between cells (in px or CSS value) */
-  gap?: number | string
+  gap?: number | string;
   /** Height behavior - "auto" or "preserve-aspect-ratio" for square cells */
-  height?: "auto" | "preserve-aspect-ratio"
+  height?: "auto" | "preserve-aspect-ratio";
   /** Hide specific guides - "row", "column", or "all" */
-  hideGuides?: "row" | "column" | "all" | boolean
+  hideGuides?: "row" | "column" | "all" | boolean;
   /** Custom class name */
-  className?: string
+  className?: string;
   /** Custom styles */
-  style?: CSSProperties
+  style?: CSSProperties;
 }
 
 // Grid Cell Props
 export interface GridCellProps {
-  children?: ReactNode
+  children?: ReactNode;
   /** Column position/span - number or "1/3" syntax */
-  column?: ResponsiveValue<GridPosition>
+  column?: ResponsiveValue<GridPosition>;
   /** Row position/span - number or "1/3" syntax */
-  row?: ResponsiveValue<GridPosition>
+  row?: ResponsiveValue<GridPosition>;
   /** Whether this cell should occlude underlying guides (has background) */
-  solid?: boolean
+  solid?: boolean;
   /** Custom class name */
-  className?: string
+  className?: string;
   /** Custom styles */
-  style?: CSSProperties
+  style?: CSSProperties;
 }
 
 export interface GridCrossProps {
   /** Column position for the cross (1-indexed) */
-  column: number
+  column: number;
   /** Row position for the cross (1-indexed) */
-  row: number
+  row: number;
   /** Size of the cross in pixels */
-  size?: number
+  size?: number;
   /** Position relative to grid intersection */
-  position?: "top-left" | "top-right" | "bottom-left" | "bottom-right" | "center"
+  position?:
+    | "top-left"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-right"
+    | "center";
   /** Custom class name */
-  className?: string
+  className?: string;
 }
 
 // Grid Guides Props (internal)
@@ -78,17 +88,17 @@ export interface GridCrossProps {
 
 // Context types
 export interface GridSystemContextValue {
-  guideWidth: number
-  guideColor: string
-  debug: boolean
+  guideWidth: number;
+  guideColor: string;
+  debug: boolean;
 }
 
-export type HideGuides = "row" | "column" | "all" | boolean
+export type HideGuides = "row" | "column" | "all" | boolean;
 
 export interface GridContextValue {
-  columns: number
-  rows: number
-  hideGuides?: HideGuides
-  guideWidth: number
-  guideColor: string
+  columns: number;
+  rows: number;
+  hideGuides?: HideGuides;
+  guideWidth: number;
+  guideColor: string;
 }

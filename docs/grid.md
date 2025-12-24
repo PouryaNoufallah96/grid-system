@@ -49,36 +49,36 @@ Color variables are also rife throughout — we adopted @kevvy's new Vercel colo
 Grid System
 After the initial designs were signed off we very quickly recognized the pivotal role of the grid and knew its foundation would be a key to our success. It was imperative for us to craft a grid system that seamlessly combined performance, responsiveness, and a strong DX while offering a suite of out of the box defaults to cater to common layout needs. We wanted to create a grid system component that could be used to build out entire pages of grid based layouts:
 
-{/* The system is only rendered at the root of the page */}
+{/_ The system is only rendered at the root of the page _/}
 <Grid.System guideWidth={1}>
-  <Grid columns={3} rows={3}>
-    {/* 
-      Each cell can contain arbitrary JSX, and will render 
-      grid lines automatically
-    */}
-    <Grid.Cell column={1} row={1}>1</Grid.Cell>
-    <Grid.Cell column={2} row={2}>2</Grid.Cell>
-    <Grid.Cell column={3} row={3}>3</Grid.Cell>
-    {/* Crosses can be set between the intersection of cells */}
-    <Grid.Cross column={1} row={1} />
-    <Grid.Cross column={-1} row={-1} />
-  </Grid>
+<Grid columns={3} rows={3}>
+{/_
+Each cell can contain arbitrary JSX, and will render
+grid lines automatically
+_/}
+<Grid.Cell column={1} row={1}>1</Grid.Cell>
+<Grid.Cell column={2} row={2}>2</Grid.Cell>
+<Grid.Cell column={3} row={3}>3</Grid.Cell>
+{/_ Crosses can be set between the intersection of cells _/}
+<Grid.Cross column={1} row={1} />
+<Grid.Cross column={-1} row={-1} />
+</Grid>
 </Grid.System>
 The actual implementation of this component turned out to be anything but straight forward. The first significant hurdle emerged when it came to a crucial design element of the grid—drawing grid lines. Drawing guides even for a simple grid is an incredibly non-trivial task. The most common method involves bordering every child in the grid on two adjacent perpendicular sides, such as the right and bottom sides. Assuming every cell in the grid is filled, the result will have properly drawn guides but will lack the top and left borders on the grid itself. To address this issue, we can simply add a top and left border on the grid and voila, we have a grid with guides.
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 50px);
-  border: 2px solid #666;
-  border-right: none;
-  border-bottom: none;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+grid-template-rows: repeat(3, 50px);
+border: 2px solid #666;
+border-right: none;
+border-bottom: none;
 }
 
 .grid > div {
-  border: 2px solid  #666;
-  border-left: none;
-  border-top: none;
+border: 2px solid #666;
+border-left: none;
+border-top: none;
 }
 For simple grids, this method works well. However, it quickly falls apart as soon as you begin to stray away from this basic model. For example, a major drawback of this method is that it requires every cell to be filled in the grid. For the above grid the markdown looks like this:
 
@@ -98,72 +98,72 @@ We don't always want to explicitly define and fill each cell with content. The g
 Faced with this challenge, I eventually stumbled my way across a CSS property that is incredibly useful for this exact circumstance: display: contents. After learning about this property it really felt like I had discovered a hidden gem. This property causes an element's children to appear as if they were direct children of the element's parent, ignoring the element itself. You might be wondering why this is so useful, so let's work through how we can implement a React component that generates the guides for a grid given a set of rows and columns. First lets define the skeleton of our component:
 
 interface GridProps {
-  rows: number;
-  columns: number;
-  children: ReactElement<GridCellProps>[];
+rows: number;
+columns: number;
+children: ReactElement<GridCellProps>[];
 }
 
 function Grid({ rows, columns, children }: GridProps) {
-  return (
-    // ...
-  );
+return (
+// ...
+);
 };
 We know that there are 3 main parts at play here. The parent grid element, the children of the grid, and the grid guides. The first step is to create the parent grid element and pass along our rows and columns as CSS variables:
 
 function Grid({ rows, columns, children }: GridProps) {
-  return (
-    <div className="grid" style={{ "--rows": rows, "--columns": columns }}>
-      {children}
-    </div>
-  );
+return (
+<div className="grid" style={{ "--rows": rows, "--columns": columns }}>
+{children}
+</div>
+);
 };
-Next, we need to render the grid guides. We can do this by creating a div with a class of grid-guides and rendering it as a direct child of the grid. Inside of this div, we will want to create rows * columns number of elements to fill our grid. Lastly, we just need to applyposition: relative to the grid class, and display: contents property to the grid-guides class. This will render the children of the grid-guides div as if they were direct children of the grid. However to ensure that these children don't interfere with the actual children on the grid, we need to apply a position: absolute and inset: 0px to every guide cell.
+Next, we need to render the grid guides. We can do this by creating a div with a class of grid-guides and rendering it as a direct child of the grid. Inside of this div, we will want to create rows \* columns number of elements to fill our grid. Lastly, we just need to applyposition: relative to the grid class, and display: contents property to the grid-guides class. This will render the children of the grid-guides div as if they were direct children of the grid. However to ensure that these children don't interfere with the actual children on the grid, we need to apply a position: absolute and inset: 0px to every guide cell.
 
 function Grid({ rows, columns, children }: GridProps) {
-  return (
-    <div className="grid" style={{ '--rows': rows, '--columns': columns }}>
-      <div className="grid-guides">
-        {Array.from({ length: rows * columns }, (_, index) => {
-          // Calculate the x and y position of the cell
-          const x = (index % columns) + 1;
-          const y = Math.floor(index / columns) + 1;
-          return (
-            <div
-              className="grid-guide"
-              style={{ '--x': x, '--y': y }}
-            />
-          );
-        })}
-      </div>
-      {/* Cells will render here */}
-      {children}
-    </div>
-  );
+return (
+<div className="grid" style={{ '--rows': rows, '--columns': columns }}>
+<div className="grid-guides">
+{Array.from({ length: rows _ columns }, (\_, index) => {
+// Calculate the x and y position of the cell
+const x = (index % columns) + 1;
+const y = Math.floor(index / columns) + 1;
+return (
+<div
+className="grid-guide"
+style={{ '--x': x, '--y': y }}
+/>
+);
+})}
+</div>
+{/_ Cells will render here \*/}
+{children}
+</div>
+);
 };
 .grid {
-  display: grid;
-  grid-template-columns: repeat(var(--columns), 1fr);
-  grid-template-rows: repeat(var(--rows), 1fr);
-  border: 2px solid #666;
-  border-right: none;
-  border-bottom: none;
-  position: relative;
+display: grid;
+grid-template-columns: repeat(var(--columns), 1fr);
+grid-template-rows: repeat(var(--rows), 1fr);
+border: 2px solid #666;
+border-right: none;
+border-bottom: none;
+position: relative;
 }
 
 .grid-guides {
-  display: contents;
+display: contents;
 }
 
 .grid-guide {
-  inset: 0px;
-  position: absolute;
-  grid-column-start: var(--x);
-  grid-column-end: span 1;
-  grid-row-start: var(--y);
-  grid-row-end: span 1;
-  border: 2px solid #666;
-  border-left: none;
-  border-top: none;
+inset: 0px;
+position: absolute;
+grid-column-start: var(--x);
+grid-column-end: span 1;
+grid-row-start: var(--y);
+grid-row-end: span 1;
+border: 2px solid #666;
+border-left: none;
+border-top: none;
 }
 And with that, our basic component is done! Notice how we no longer need to define any cells to receive guides. Let's see what it looks like in practice. Feel free to edit the number of columns or rows:
 
@@ -171,20 +171,19 @@ And with that, our basic component is done! Notice how we no longer need to defi
 Now that we have our main Grid component done, we can move onto creating a simple React abstraction for grid cells. Take a look at the following:
 
 interface CellProps {
-  row: number;
-  column: number;
-  children: ReactNode;
+row: number;
+column: number;
+children: ReactNode;
 }
 
 function Cell({ row, column, children }: CellProps) {
-  return (
-    <div 
-      className="grid-cell" 
-      style={{ gridRow: row, gridColumn: column }}
-    >
-      {children}
-    </div>
-  );
+return (
+<div
+className="grid-cell"
+style={{ gridRow: row, gridColumn: column }} >
+{children}
+</div>
+);
 };
 This component is incredibly simple, but it allows us to easily render arbitrary JSX inside a cell on the grid by specifying the row and column of the cell and that is it!
 
@@ -194,21 +193,21 @@ you
 ship
 ?
 <Grid rows={4} columns={4}>
-  <Grid.Cell row="auto" column={1}>
-    What
-  </Grid.Cell>
-  <Grid.Cell row="auto" column={4}>
-    will
-  </Grid.Cell>
-  <Grid.Cell row={2} column={3}>
-    you
-  </Grid.Cell>
-  <Grid.Cell row={3} column={4}>
-    ship
-  </Grid.Cell>
-  <Grid.Cell row={4} column="auto">
-    ?
-  </Grid.Cell>
+<Grid.Cell row="auto" column={1}>
+What
+</Grid.Cell>
+<Grid.Cell row="auto" column={4}>
+will
+</Grid.Cell>
+<Grid.Cell row={2} column={3}>
+you
+</Grid.Cell>
+<Grid.Cell row={3} column={4}>
+ship
+</Grid.Cell>
+<Grid.Cell row={4} column="auto">
+?
+</Grid.Cell>
 </Grid>
 One very cool thing to note here is that passing the "auto" prop as a row/column is working here. If we were not using display: contents on our guides, setting "auto" as a row/column would break the grid entirely.
 
@@ -261,58 +260,48 @@ Pixelated Iconography
 One of the most beloved parts of the home page were the pixelated icons. They are drawn in Figma, and extracted with a Ruby script that takes bitmaps as input, reads the pixel color at set intervals, and then creates a matrix for each icon (source). One of the matrices would look like this in code. Can you tell what framework logo this is for?
 
 [
-  [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-  [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0],
-  [0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
+[0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
+[0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+[1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0],
+[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0],
+[0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+[0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],
+[0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 ]
 The fact that we have icons available as pixel data means we can render them in different formats.
 
 For example, on the home page we render a canvas element for a smaller DOM footprint and animation. As a fallback, we make use of a base64 string to display a placeholder image which ends up costing merely ~1kb per icon. Optionally, the icon can also render as SVG for when they are above the fold.
 
-
-
-
-
-
-
-
-
-
-
 The approach to rendering based on the matrix is pretty much the same between formats. For instance, the way we render them in canvas is by iterating over each row and pixel, and drawing a circle with arc() for a given coordinate:
 
 matrix.forEach((row: number[], y: number) => {
-  row.forEach((pixel: number, x: number) => {
-    // 0 means transparent, no need to render
-    if (pixel !== 0) {
-      render(ctx, x, y, pixel);
-    }
-    // When done, hide the placeholder
-    if (y === matrix.length - 1 && x === row.length - 1) {
-      setLoading(false);
-    }
-  });
+row.forEach((pixel: number, x: number) => {
+// 0 means transparent, no need to render
+if (pixel !== 0) {
+render(ctx, x, y, pixel);
+}
+// When done, hide the placeholder
+if (y === matrix.length - 1 && x === row.length - 1) {
+setLoading(false);
+}
+});
 });
 The rendering happens very fast but to illustrate what's happening we can slow rendering down. And funnily enough, it kind of reminds me of an old computer monitor painting each frame painstakingly slowly:
 
@@ -340,20 +329,19 @@ Most of the fixes were trivial: we could hide the icon with aria-hidden since th
 On copying the code, we also want to make sure to provide auditory feedback that the code indeed was successfully copied. We can use ARIA live regions to expose dynamic content changes to screen readers. In this case, we want to conditionally render a message:
 
 <>
-  {isCopied && (
-    <div
-      // We are showing a message, so `log` is appropriate
-      role="log"
-      // The update is low priority, and should report when the user is idle
-      // For compatibility we can explicitly set this
-      aria-live="polite"
-      // Hide the element visually, but don't
-      // use `display` or `visibility` for this
-      className="visually-hidden"
-    >
-      Copied code to clipboard
-    </div>
-  )}
+{isCopied && (
+<div
+// We are showing a message, so `log` is appropriate
+role="log"
+// The update is low priority, and should report when the user is idle
+// For compatibility we can explicitly set this
+aria-live="polite"
+// Hide the element visually, but don't
+// use `display` or `visibility` for this
+className="visually-hidden" >
+Copied code to clipboard
+</div>
+)}
 </>
 Since the block of code on the given page is complementary, we can also make the tag into an aside, and give it a label that describes what the code does at a high level. This way someone could decide to either skip the section or dive deeper:
 
@@ -372,7 +360,7 @@ The line numbers are self-incrementing pseudo elements. Here's a quick example:
 Now, since there's no DOM element rendered we can't just throw aria-hidden on it. Instead, theres a second value for content which is alternative text for pseudo elements. By setting the content to an empty string we effectively are saying that nothing should be announced for this element:
 
 .line:before {
-  content: counter(line) / "";
+content: counter(line) / "";
 }
 When all of these improvements are combined, we end up receiving more information from a screen reader. And not only for a single page, but for every piece of code that we present as the component powers hundreds of examples.
 
@@ -399,13 +387,13 @@ I mentioned responsiveness earlier. Since CSS container queries are now stable i
 Container queries are really easy to use. We define a containment context on the root element and make any adjustments to the children based on the container size:
 
 .root {
-  container-type: inline-size;
+container-type: inline-size;
 }
 
 @container (max-width: 560px) {
-  .scope {
-    display: none;
-  }
+.scope {
+display: none;
+}
 }
 Now it's safe to render the component inside any container and predictably assume it will always display the ideal form:
 
@@ -418,27 +406,27 @@ What I didn't realise was that the value of this property does not only have to 
 Here's a tiny example of this property in action:
 
 .ring {
-  width: 200px;
-  height: 200px;
-  border: 1px solid #666;
-  border-radius: 50%;
+width: 200px;
+height: 200px;
+border: 1px solid #666;
+border-radius: 50%;
 }
 
 .ring .ball {
-  width: 24px;
-  height: 24px;
-  background: dodgerblue;
-  border-radius: 50%;
-  offset-path: content-box;
-  offset-distance: 0%;
-  position: absolute;
-  animation: animate 5s linear infinite;
+width: 24px;
+height: 24px;
+background: dodgerblue;
+border-radius: 50%;
+offset-path: content-box;
+offset-distance: 0%;
+position: absolute;
+animation: animate 5s linear infinite;
 }
 
 @keyframes animate {
-  to {
-    offset-distance: 100%;
-  }
+to {
+offset-distance: 100%;
+}
 }
 As of 2023, sadly content-box does not produce desirable results in Safari and Firefox. However, since 12/12 Safari 17.2 has now updated their offset-path implementation! I can confirm that using offset-path: content-box works well.
 
@@ -458,20 +446,20 @@ A good example where we can pause is this looping cursor and caret animation:
 These are animated with CSS keyframes and we can pause them gracefully by using the animation-play-state property, instead of abruptly interrupting the animation by setting it to none.
 
 @media (prefers-reduced-motion: reduce) {
-  .cursor, .caret {
-    animation-play-state: paused;
-  }
+.cursor, .caret {
+animation-play-state: paused;
+}
 }
 And finally, a detail that no one sane has any reason to ever notice—we can make sure that the caret blink does not pause in a state where it becomes invisible.
 
 @media (prefers-reduced-motion: reduce) {
-  .cursor, .caret {
-    animation-play-state: paused;
-  }
+.cursor, .caret {
+animation-play-state: paused;
+}
 
-  .caret {
-    opacity: 1 !important;
-  }
+.caret {
+opacity: 1 !important;
+}
 }
 Cinematography
 For showcasing our work I shot a video and a few stills for use in media or our portfolios. One of them includes practical cinematography of the design. I don't have a lot of sage, creative wisdom to share here how to make a video like this, as I was learning myself while making. It's mostly a painful, repetitive process between shooting, editing, re-shooting and editing again. In the end, I am still not completely happy with it.

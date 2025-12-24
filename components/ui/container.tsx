@@ -1,10 +1,10 @@
-import { cn } from "@/lib/utils"
-import type React from "react"
+import { cn } from "@/lib/utils";
+import type React from "react";
 
 interface ContainerProps {
-  children: React.ReactNode
-  className?: string
-  size?: "sm" | "md" | "lg" | "xl"
+  children: React.ReactNode;
+  className?: string;
+  size?: "sm" | "md" | "lg" | "xl";
 }
 
 /**
@@ -21,7 +21,11 @@ interface ContainerProps {
  * - Tablet: px-6 (1.5rem)
  * - Desktop: px-8 (2rem)
  */
-export function Container({ children, className, size = "xl" }: ContainerProps) {
+export function Container({
+  children,
+  className,
+  size = "xl",
+}: ContainerProps) {
   return (
     <div
       className={cn(
@@ -32,10 +36,10 @@ export function Container({ children, className, size = "xl" }: ContainerProps) 
           "max-w-screen-lg": size === "lg",
           "max-w-6xl": size === "xl",
         },
-        className
+        className,
       )}
     >
       {children}
     </div>
-  )
+  );
 }
