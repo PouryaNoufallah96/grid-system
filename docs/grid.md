@@ -112,6 +112,7 @@ We know that there are 3 main parts at play here. The parent grid element, the c
 
 function Grid({ rows, columns, children }: GridProps) {
 return (
+
 <div className="grid" style={{ "--rows": rows, "--columns": columns }}>
 {children}
 </div>
@@ -121,6 +122,7 @@ Next, we need to render the grid guides. We can do this by creating a div with a
 
 function Grid({ rows, columns, children }: GridProps) {
 return (
+
 <div className="grid" style={{ '--rows': rows, '--columns': columns }}>
 <div className="grid-guides">
 {Array.from({ length: rows _ columns }, (\_, index) => {
@@ -178,6 +180,7 @@ children: ReactNode;
 
 function Cell({ row, column, children }: CellProps) {
 return (
+
 <div
 className="grid-cell"
 style={{ gridRow: row, gridColumn: column }} >
@@ -330,6 +333,7 @@ On copying the code, we also want to make sure to provide auditory feedback that
 
 <>
 {isCopied && (
+
 <div
 // We are showing a message, so `log` is appropriate
 role="log"

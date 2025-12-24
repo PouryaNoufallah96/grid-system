@@ -3,7 +3,6 @@
 import type React from "react";
 import type { GridCellProps, GridPosition, ResponsiveValue } from "./types";
 import { cn } from "@/lib/utils";
-import { useGrid } from "./grid-context";
 
 function parseGridPosition(pos: GridPosition | undefined): string | undefined {
   if (pos === undefined || pos === "auto") return undefined;

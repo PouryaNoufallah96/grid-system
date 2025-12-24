@@ -54,56 +54,95 @@ const testimonials = [
 ];
 
 export function TestimonialsSection() {
+  const mobileTestimonials = testimonials.slice(0, 5);
+
   return (
     <section className="bg-black text-white">
-      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
-        <Container size="xl">
-          <Grid columns={3} rows={3}>
-            {/* Section marker - top left */}
-            <GridCross column={1} row={1} size={24} position="top-left" />
+      {/* Mobile Layout */}
+      <div className="md:hidden py-12">
+        <div className="px-6 space-y-6">
+          {mobileTestimonials.map((item) => (
+            <div
+              key={item.company}
+              className="p-6 rounded-lg border border-white/10"
+            >
+              {item.quote ? (
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  &quot;{item.quote}&quot;
+                </p>
+              ) : (
+                <p className="text-sm text-gray-400 leading-relaxed">
+                  {item.company}{" "}
+                  <span className="text-white font-medium">
+                    {item.stat
+                      ? `${item.description} ${item.stat}`
+                      : item.description}
+                  </span>{" "}
+                  with Vercel.
+                </p>
+              )}
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-lg font-bold tracking-tight text-white">
+                  {item.company}
+                </span>
+                <ArrowRight className="w-4 h-4 text-gray-500" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-            {testimonials.map((item, index) => {
-              const col = (index % 3) + 1;
-              const row = Math.floor(index / 3) + 1;
+      {/* Desktop Layout */}
+      <div className="hidden md:block">
+        <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+          <Container size="xl">
+            <Grid columns={3} rows={3}>
+              {/* Section marker - top left */}
+              <GridCross column={1} row={1} size={24} position="top-left" />
 
-              return (
-                <GridCell
-                  key={item.company}
-                  column={col}
-                  row={row}
-                  className="p-8 group hover:bg-white/5 transition-colors"
-                >
-                  {item.quote ? (
-                    <p className="text-sm text-gray-400 leading-relaxed">
-                      &quot;{item.quote}&quot;
-                    </p>
-                  ) : (
-                    <p className="text-sm text-gray-400 leading-relaxed">
-                      {item.company}{" "}
-                      <span className="text-white font-medium">
-                        {item.stat
-                          ? `${item.description} ${item.stat}`
-                          : item.description}
-                      </span>{" "}
-                      with Vercel.
-                    </p>
-                  )}
+              {testimonials.map((item, index) => {
+                const col = (index % 3) + 1;
+                const row = Math.floor(index / 3) + 1;
 
-                  <div className="mt-8 flex items-center justify-between">
-                    <span className="text-lg font-bold tracking-tight text-white">
-                      {item.company}
-                    </span>
-                    <ArrowRight className="w-4 h-4 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </div>
-                </GridCell>
-              );
-            })}
+                return (
+                  <GridCell
+                    key={item.company}
+                    column={col}
+                    row={row}
+                    className="p-8 group hover:bg-white/5 transition-colors"
+                  >
+                    {item.quote ? (
+                      <p className="text-sm text-gray-400 leading-relaxed">
+                        &quot;{item.quote}&quot;
+                      </p>
+                    ) : (
+                      <p className="text-sm text-gray-400 leading-relaxed">
+                        {item.company}{" "}
+                        <span className="text-white font-medium">
+                          {item.stat
+                            ? `${item.description} ${item.stat}`
+                            : item.description}
+                        </span>{" "}
+                        with Vercel.
+                      </p>
+                    )}
 
-            {/* Section marker - bottom right */}
-            <GridCross column={3} row={3} size={24} position="bottom-right" />
-          </Grid>
-        </Container>
-      </GridSystem>
+                    <div className="mt-8 flex items-center justify-between">
+                      <span className="text-lg font-bold tracking-tight text-white">
+                        {item.company}
+                      </span>
+                      <ArrowRight className="w-4 h-4 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  </GridCell>
+                );
+              })}
+
+              {/* Section marker - bottom right */}
+              <GridCross column={3} row={3} size={24} position="bottom-right" />
+            </Grid>
+          </Container>
+        </GridSystem>
+      </div>
     </section>
   );
 }

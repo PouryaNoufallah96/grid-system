@@ -8,43 +8,56 @@ import { Button } from "@/components/ui/button";
 export function LogosSection() {
   return (
     <section className="bg-black text-white">
-      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
-        <Container size="xl">
-          <Grid columns={3} rows={4}>
-            {/* Section marker - top left */}
-            <GridCross column={1} row={1} size={24} position="top-left" />
+      {/* Mobile Layout */}
+      <div className="md:hidden px-6 py-16 text-center">
+        <p className="text-2xl font-bold tracking-tight leading-tight text-white">
+          The teams we empower.
+        </p>
+        <Button className="mt-6 rounded-full bg-white text-black hover:bg-gray-100 px-6 h-12 text-base w-full">
+          Get a Demo
+        </Button>
+      </div>
 
-            {/* Row 1 - empty top spacing */}
-            <GridCell column="1/4" row={1} solid className="h-20 bg-black" />
+      {/* Desktop Layout */}
+      <div className="hidden md:block">
+        <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+          <Container size="xl">
+            <Grid columns={3} rows={4}>
+              {/* Section marker - top left */}
+              <GridCross column={1} row={1} size={24} position="top-left" />
 
-            {/* Row 2 - Main heading with button, solid across full width */}
-            <GridCell
-              column="1/4"
-              row={2}
-              solid
-              className="py-12 flex items-center justify-center gap-4 flex-wrap bg-black"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white">
-                The teams we empower.
-              </h2>
-              <Button className="rounded-full bg-white text-black hover:bg-gray-100 px-6 h-12 text-base">
-                Get a Demo
-              </Button>
-            </GridCell>
+              {/* Row 1 - empty top spacing */}
+              <GridCell column="1/4" row={1} solid className="h-20 bg-black" />
 
-            {/* Row 3 - empty bottom spacing */}
-            <GridCell column="1/4" row={3} solid className="h-20 bg-black" />
+              {/* Row 2 - Main heading with button, solid across full width */}
+              <GridCell
+                column="1/4"
+                row={2}
+                solid
+                className="py-12 flex items-center justify-center gap-4 flex-wrap bg-black"
+              >
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white">
+                  The teams we empower.
+                </h2>
+                <Button className="rounded-full bg-white text-black hover:bg-gray-100 px-6 h-12 text-base">
+                  Get a Demo
+                </Button>
+              </GridCell>
 
-            {/* Row 4 - very short for the marker */}
-            <GridCell column="1/4" row={4} solid className="h-4 bg-black" />
+              {/* Row 3 - empty bottom spacing */}
+              <GridCell column="1/4" row={3} solid className="h-20 bg-black" />
 
-            {/* Section marker - bottom right */}
-            <GridCross column={3} row={4} size={24} position="bottom-right" />
-          </Grid>
-        </Container>
-      </GridSystem>
+              {/* Row 4 - very short for the marker */}
+              <GridCell column="1/4" row={4} solid className="h-4 bg-black" />
 
-      {/* Trusted by section - outside the grid */}
+              {/* Section marker - bottom right */}
+              <GridCross column={3} row={4} size={24} position="bottom-right" />
+            </Grid>
+          </Container>
+        </GridSystem>
+      </div>
+
+      {/* Trusted by section - outside the grid, shared between mobile and desktop */}
       <div className="border-t border-white/10 py-12">
         <Container size="xl">
           <p className="text-center text-gray-400 mb-8 text-sm">

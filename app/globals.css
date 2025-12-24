@@ -351,6 +351,50 @@
     pointer-events: none;
     z-index: 10;
   }
+
+  /* Mobile responsive - Hide grid decorations on small screens */
+  @media (max-width: 767px) {
+    .geist-grid-guides,
+    .geist-guide-cell {
+      display: none !important;
+    }
+
+    .geist-grid-cross {
+      display: none !important;
+    }
+
+    .geist-grid {
+      border: none !important;
+    }
+
+    .geist-grid-cell-solid {
+      border: none !important;
+    }
+
+    /* Override: Show guides on mobile when opt-in class is present */
+    .show-guides-on-mobile .geist-grid-guides,
+    .show-guides-on-mobile .geist-guide-cell {
+      display: block !important;
+    }
+
+    .show-guides-on-mobile .geist-grid-cross {
+      display: block !important;
+    }
+
+    .show-guides-on-mobile .geist-grid {
+      border-top: var(--geist-grid-guide-width, 1px) solid
+        var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
+      border-left: var(--geist-grid-guide-width, 1px) solid
+        var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
+    }
+
+    .show-guides-on-mobile .geist-grid-cell-solid {
+      border-right: var(--geist-grid-guide-width, 1px) solid
+        var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
+      border-bottom: var(--geist-grid-guide-width, 1px) solid
+        var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
+    }
+  }
 }
 
 /* Beam animations */

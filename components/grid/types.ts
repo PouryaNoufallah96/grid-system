@@ -20,6 +20,8 @@ export interface GridSystemProps {
   guideColor?: string;
   /** Show debug overlay with grid info */
   debug?: boolean;
+  /** Show grid guides on mobile (< 768px). Default: false */
+  showGuidesOnMobile?: boolean;
   /** Custom class name */
   className?: string;
 }

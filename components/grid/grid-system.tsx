@@ -9,12 +9,17 @@ export function GridSystem({
   guideWidth = 1,
   guideColor = "rgba(255, 255, 255, 0.1)",
   debug = false,
+  showGuidesOnMobile = false,
   className,
 }: GridSystemProps) {
   return (
     <GridSystemContext.Provider value={{ guideWidth, guideColor, debug }}>
       <div
-        className={cn("geist-grid-system w-full", className)}
+        className={cn(
+          "geist-grid-system w-full",
+          showGuidesOnMobile && "show-guides-on-mobile",
+          className,
+        )}
         style={
           {
             "--geist-grid-guide-width": `${guideWidth}px`,

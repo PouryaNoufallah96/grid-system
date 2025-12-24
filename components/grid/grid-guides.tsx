@@ -1,6 +1,7 @@
 "use client";
 
 import type React from "react";
+import { useMemo } from "react";
 
 interface GridGuidesProps {
   columns: number;
@@ -41,39 +42,51 @@ export function GridGuides({
   const showHorizontalGuides = hideGuides !== "row";
 
   // Generate rows * columns guide cells to fill every grid position
-  const guideCells = Array.from({ length: rows * columns }, (_, index) => {
-    const x = (index % columns) + 1;
-    const y = Math.floor(index / columns) + 1;
+  // Memoized to prevent recreating array on every render
+  const guideCells = useMemo(
+    () =>
+      Array.from({ length: rows * columns }, (_, index) => {
+        const x = (index % columns) + 1;
+        const y = Math.floor(index / columns) + 1;
 
-    return (
-      <div
-        key={`guide-${x}-${y}`}
-        className="geist-guide-cell"
-        style={
-          {
-            // Absolutely positioned to fill grid cell without affecting layout
-            position: "absolute",
-            inset: 0,
-            // Position in the CSS Grid
-            gridColumnStart: x,
-            gridColumnEnd: "span 1",
-            gridRowStart: y,
-            gridRowEnd: "span 1",
-            // Draw right and bottom borders (grid has top and left)
-            borderRight: showVerticalGuides
-              ? `${guideWidth}px solid ${guideColor}`
-              : undefined,
-            borderBottom: showHorizontalGuides
-              ? `${guideWidth}px solid ${guideColor}`
-              : undefined,
-            pointerEvents: "none",
-            zIndex: 0, // Below content cells
-          } as React.CSSProperties
-        }
-        aria-hidden="true"
-      />
-    );
-  });
+        return (
+          <div
+            key={`guide-${x}-${y}`}
+            className="geist-guide-cell"
+            style={
+              {
+                // Absolutely positioned to fill grid cell without affecting layout
+                position: "absolute",
+                inset: 0,
+                // Position in the CSS Grid
+                gridColumnStart: x,
+                gridColumnEnd: "span 1",
+                gridRowStart: y,
+                gridRowEnd: "span 1",
+                // Draw right and bottom borders (grid has top and left)
+                borderRight: showVerticalGuides
+                  ? `${guideWidth}px solid ${guideColor}`
+                  : undefined,
+                borderBottom: showHorizontalGuides
+                  ? `${guideWidth}px solid ${guideColor}`
+                  : undefined,
+                pointerEvents: "none",
+                zIndex: 0, // Below content cells
+              } as React.CSSProperties
+            }
+            aria-hidden="true"
+          />
+        );
+      }),
+    [
+      rows,
+      columns,
+      showVerticalGuides,
+      showHorizontalGuides,
+      guideWidth,
+      guideColor,
+    ],
+  );
 
   return (
     <div className="geist-grid-guides" aria-hidden="true">

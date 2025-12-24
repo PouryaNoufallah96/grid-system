@@ -29,37 +29,57 @@ const features = [
 export function FeaturesSection() {
   return (
     <section className="bg-zinc-950 text-white">
-      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
-        <Container size="xl">
-          <Grid columns={3} rows={1}>
-            <GridCross column={1} row={1} size={24} position="top-left" />
+      {/* Mobile Layout */}
+      <div className="md:hidden px-6 py-12 space-y-10">
+        {features.map((feature) => (
+          <div key={feature.title} className="text-center">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 mb-6">
+              <feature.icon className="w-6 h-6 text-white" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-lg font-semibold text-white">
+              {feature.title}
+            </h3>
+            <p className="mt-3 text-sm text-gray-400 leading-relaxed">
+              {feature.description}
+            </p>
+          </div>
+        ))}
+      </div>
 
-            {features.map((feature, index) => (
-              <GridCell
-                key={feature.title}
-                column={index + 1}
-                row={1}
-                className="p-10 text-center"
-              >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 mb-6">
-                  <feature.icon
-                    className="w-6 h-6 text-white"
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <h3 className="text-lg font-semibold text-white">
-                  {feature.title}
-                </h3>
-                <p className="mt-3 text-sm text-gray-400 leading-relaxed max-w-[280px] mx-auto">
-                  {feature.description}
-                </p>
-              </GridCell>
-            ))}
+      {/* Desktop Layout */}
+      <div className="hidden md:block">
+        <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+          <Container size="xl">
+            <Grid columns={3} rows={1}>
+              <GridCross column={1} row={1} size={24} position="top-left" />
 
-            <GridCross column={3} row={1} size={24} position="bottom-right" />
-          </Grid>
-        </Container>
-      </GridSystem>
+              {features.map((feature, index) => (
+                <GridCell
+                  key={feature.title}
+                  column={index + 1}
+                  row={1}
+                  className="p-10 text-center"
+                >
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 mb-6">
+                    <feature.icon
+                      className="w-6 h-6 text-white"
+                      strokeWidth={1.5}
+                    />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-gray-400 leading-relaxed max-w-[280px] mx-auto">
+                    {feature.description}
+                  </p>
+                </GridCell>
+              ))}
+
+              <GridCross column={3} row={1} size={24} position="bottom-right" />
+            </Grid>
+          </Container>
+        </GridSystem>
+      </div>
     </section>
   );
 }

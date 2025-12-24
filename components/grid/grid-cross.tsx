@@ -61,20 +61,25 @@ export function GridCross({
           ...getPositionOffset(),
         }}
       >
-        <svg width={size} height={size} viewBox="0 0 20 20" fill="none">
+        <svg
+          width={size}
+          height={size}
+          viewBox={`0 0 ${size} ${size}`}
+          fill="none"
+        >
           <line
             x1="0"
-            y1="10"
-            x2="20"
-            y2="10"
+            y1={size / 2}
+            x2={size}
+            y2={size / 2}
             stroke={guideColor}
             strokeWidth="1"
           />
           <line
-            x1="10"
+            x1={size / 2}
             y1="0"
-            x2="10"
-            y2="20"
+            x2={size / 2}
+            y2={size}
             stroke={guideColor}
             strokeWidth="1"
           />

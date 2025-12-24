@@ -44,95 +44,147 @@ const sdkFeatures = [
 export function AISection() {
   return (
     <section className="bg-black text-white">
-      <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
-        <Container size="xl">
-          {/* Header - full width SOLID cell to hide guides behind text */}
-          <Grid columns={3} rows={1}>
-            <GridCross column={1} row={1} size={24} position="top-left" />
+      {/* Mobile Layout */}
+      <div className="md:hidden px-6 py-12 space-y-12">
+        {/* Header */}
+        <div className="text-center">
+          <p className="text-2xl font-bold tracking-tight leading-tight text-white text-balance">
+            The future of AI frontends is on Vercel.
+          </p>
+          <p className="mt-4 text-gray-400">
+            Vercel provides the tools and infrastructure to build and deploy
+            robust, secure, and performant AI applications quickly.
+          </p>
+        </div>
 
-            <GridCell
-              column="1/4"
-              row={1}
-              solid
-              className="py-12 text-center bg-black"
-            >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white text-balance">
-                The future of AI frontends is on Vercel.
-              </h2>
-              <p className="mt-4 text-gray-400 max-w-3xl mx-auto">
-                Vercel provides the tools and infrastructure to build and deploy
-                robust, secure, and performant AI applications quickly.
-              </p>
-            </GridCell>
-
-            <GridCross column={3} row={1} size={24} position="bottom-right" />
-          </Grid>
-        </Container>
-
-        <Container size="xl">
-          {/* AI Features grid - 3 columns */}
-          <Grid columns={3} rows={2}>
-            <GridCross column={1} row={1} size={24} position="top-left" />
-
-            {aiFeatures.map((feature, index) => (
-              <GridCell
-                key={feature.title}
-                column={index + 1}
-                row="1/3"
-                className="p-8 flex flex-col"
-              >
-                <div className="h-40 rounded-lg bg-zinc-900 border border-white/10 mb-6 flex items-center justify-center overflow-hidden relative">
-                  <AIVisual type={index} />
-                </div>
-                <h3 className="text-lg font-semibold text-white">
-                  {feature.title}
-                </h3>
-                <p className="mt-3 text-sm text-gray-400 leading-relaxed">
-                  {feature.description}
-                </p>
-                <button className="mt-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </GridCell>
-            ))}
-
-            <GridCross column={3} row={2} size={24} position="bottom-right" />
-          </Grid>
-        </Container>
-
-        <Container size="xl">
-          {/* SDK section */}
-          <Grid columns={3} rows={2}>
-            <GridCross column={1} row={1} size={24} position="top-left" />
-
-            <GridCell column="1/4" row={1} solid className="p-8 bg-black">
-              <h3 className="text-2xl md:text-3xl font-bold tracking-tight leading-tight text-white text-balance max-w-4xl">
-                From the creators of Next.js, the Vercel AI SDK gives you the
-                tools you need to build AI-powered products.
+        {/* AI Features */}
+        <div className="space-y-8">
+          {aiFeatures.map((feature) => (
+            <div key={feature.title}>
+              <h3 className="text-lg font-semibold text-white">
+                {feature.title}
               </h3>
-            </GridCell>
+              <p className="mt-2 text-sm text-gray-400 leading-relaxed">
+                {feature.description}
+              </p>
+              <button className="mt-4 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
+        </div>
 
-            {sdkFeatures.map((feature, index) => (
+        {/* SDK Section */}
+        <div className="space-y-6">
+          <p className="text-xl font-bold tracking-tight text-white">
+            From the creators of Next.js, the Vercel AI SDK gives you the tools
+            you need to build AI-powered products.
+          </p>
+          {sdkFeatures.map((feature) => (
+            <div key={feature.title} className="p-4 border-b border-white/10">
+              <h4 className="font-semibold text-white">{feature.title}</h4>
+              <p className="mt-2 text-sm text-gray-400 leading-relaxed">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="hidden md:block">
+        <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+          <Container size="xl">
+            {/* Header - full width SOLID cell to hide guides behind text */}
+            <Grid columns={3} rows={1}>
+              <GridCross column={1} row={1} size={24} position="top-left" />
+
               <GridCell
-                key={feature.title}
-                column={index + 1}
-                row={2}
-                className="p-8 group hover:bg-white/5 transition-colors"
+                column="1/4"
+                row={1}
+                solid
+                className="py-12 text-center bg-black"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="font-semibold text-white">{feature.title}</h4>
-                  <ArrowRight className="w-4 h-4 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-                <p className="text-sm text-gray-400 leading-relaxed">
-                  {feature.description}
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight text-white text-balance">
+                  The future of AI frontends is on Vercel.
+                </h2>
+                <p className="mt-4 text-gray-400 max-w-3xl mx-auto">
+                  Vercel provides the tools and infrastructure to build and
+                  deploy robust, secure, and performant AI applications quickly.
                 </p>
               </GridCell>
-            ))}
 
-            <GridCross column={3} row={2} size={24} position="bottom-right" />
-          </Grid>
-        </Container>
-      </GridSystem>
+              <GridCross column={3} row={1} size={24} position="bottom-right" />
+            </Grid>
+          </Container>
+
+          <Container size="xl">
+            {/* AI Features grid - 3 columns */}
+            <Grid columns={3} rows={2}>
+              <GridCross column={1} row={1} size={24} position="top-left" />
+
+              {aiFeatures.map((feature, index) => (
+                <GridCell
+                  key={feature.title}
+                  column={index + 1}
+                  row="1/3"
+                  className="p-8 flex flex-col"
+                >
+                  <div className="h-40 rounded-lg bg-zinc-900 border border-white/10 mb-6 flex items-center justify-center overflow-hidden relative">
+                    <AIVisual type={index} />
+                  </div>
+                  <h3 className="text-lg font-semibold text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-gray-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <button className="mt-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-colors">
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </GridCell>
+              ))}
+
+              <GridCross column={3} row={2} size={24} position="bottom-right" />
+            </Grid>
+          </Container>
+
+          <Container size="xl">
+            {/* SDK section */}
+            <Grid columns={3} rows={2}>
+              <GridCross column={1} row={1} size={24} position="top-left" />
+
+              <GridCell column="1/4" row={1} solid className="p-8 bg-black">
+                <h3 className="text-2xl md:text-3xl font-bold tracking-tight leading-tight text-white text-balance max-w-4xl">
+                  From the creators of Next.js, the Vercel AI SDK gives you the
+                  tools you need to build AI-powered products.
+                </h3>
+              </GridCell>
+
+              {sdkFeatures.map((feature, index) => (
+                <GridCell
+                  key={feature.title}
+                  column={index + 1}
+                  row={2}
+                  className="p-8 group hover:bg-white/5 transition-colors"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-semibold text-white">
+                      {feature.title}
+                    </h4>
+                    <ArrowRight className="w-4 h-4 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                  <p className="text-sm text-gray-400 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </GridCell>
+              ))}
+
+              <GridCross column={3} row={2} size={24} position="bottom-right" />
+            </Grid>
+          </Container>
+        </GridSystem>
+      </div>
     </section>
   );
 }

@@ -29,8 +29,8 @@ export function Beam({
         className={cn(
           "absolute",
           isHorizontal
-            ? "h-full w-1/4 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent"
-            : "w-full h-1/4 bg-gradient-to-b from-transparent via-cyan-400/50 to-transparent",
+            ? "h-full w-1/4 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent"
+            : "w-full h-1/4 bg-linear-to-b from-transparent via-cyan-400/50 to-transparent",
         )}
         style={{
           animation: `beam-${direction} ${duration}s ease-in-out ${delay}s infinite`,
