@@ -97,9 +97,6 @@ export function CTASection() {
                   </span>
                 </button>
               </GridCell>
-
-              {/* Section marker - bottom right */}
-              <GridCross column={3} row={1} size={24} position="bottom-right" />
             </Grid>
           </Container>
         </GridSystem>

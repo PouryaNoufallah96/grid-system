@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-import { useMemo } from "react";
 import { GridContext } from "./grid-context";
 import type { GridProps, ResponsiveValue, GridContextValue } from "./types";
 import { cn } from "@/lib/utils";
@@ -25,6 +24,21 @@ function getBaseValue<T>(
   return value as T;
 }
 
+function getMaxValue<T extends number>(
+  value: ResponsiveValue<T> | undefined,
+  fallback: T,
+): T {
+  if (value === undefined) return fallback;
+  if (isResponsiveObject(value)) {
+    return Math.max(
+      value.sm ?? fallback,
+      value.md ?? fallback,
+      value.lg ?? fallback,
+    ) as T;
+  }
+  return value as T;
+}
+
 export function Grid({
   children,
   columns,
@@ -40,25 +54,17 @@ export function Grid({
   const baseRows = getBaseValue(rows, "auto");
   const numRows = typeof baseRows === "number" ? baseRows : 1;
 
-  const responsiveClasses = useMemo(() => {
-    const classes: string[] = [];
+  // For responsive grids, calculate max columns/rows to render guides for all breakpoints
+  const maxColumns = isResponsiveObject(columns)
+    ? getMaxValue(columns, baseColumns)
+    : baseColumns;
+  const maxRows =
+    isResponsiveObject(rows) && typeof baseRows === "number"
+      ? getMaxValue(rows as ResponsiveValue<number>, baseRows)
+      : numRows;
 
-    // Column responsive classes
-    if (isResponsiveObject(columns)) {
-      if (columns.sm) classes.push(`grid-cols-sm-${columns.sm}`);
-      if (columns.md) classes.push(`md:grid-cols-${columns.md}`);
-      if (columns.lg) classes.push(`lg:grid-cols-${columns.lg}`);
-    }
-
-    // Row responsive classes
-    if (isResponsiveObject(rows)) {
-      if (rows.sm) classes.push(`grid-rows-sm-${rows.sm}`);
-      if (rows.md) classes.push(`md:grid-rows-${rows.md}`);
-      if (rows.lg) classes.push(`lg:grid-rows-${rows.lg}`);
-    }
-
-    return classes.join(" ");
-  }, [columns, rows]);
+  // Responsive behavior is handled via CSS variables and media queries in globals.css
+  // No need for responsive classes since CSS handles it directly
 
   const cssVars: Record<string, string | number> = {
     "--grid-cols": baseColumns,
@@ -101,12 +107,18 @@ export function Grid({
           : gap
         : undefined,
     position: "relative",
-    // Outer grid borders - only top and left (Vercel pattern)
-    // Guide cells provide right and bottom borders
+    // Outer grid borders - all four sides
+    // Guide cells only draw internal borders (not on edges)
     borderTop: showHorizontalBorders
       ? `${guideWidth}px solid ${guideColor}`
       : undefined,
     borderLeft: showVerticalBorders
+      ? `${guideWidth}px solid ${guideColor}`
+      : undefined,
+    borderRight: showVerticalBorders
+      ? `${guideWidth}px solid ${guideColor}`
+      : undefined,
+    borderBottom: showHorizontalBorders
       ? `${guideWidth}px solid ${guideColor}`
       : undefined,
     ...cssVars,
@@ -124,14 +136,14 @@ export function Grid({
   return (
     <GridContext.Provider value={contextValue}>
       <div
-        className={cn("geist-grid", responsiveClasses, className)}
+        className={cn("geist-grid", className)}
         style={gridStyle}
         data-columns={baseColumns}
         data-rows={numRows}
       >
         <GridGuides
-          columns={baseColumns}
-          rows={numRows}
+          columns={maxColumns}
+          rows={maxRows}
           hideGuides={hideGuides}
           guideWidth={guideWidth}
           guideColor={guideColor}

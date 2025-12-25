@@ -45,7 +45,7 @@
   --shadow-color: #000000;
 
   /* Grid system variables */
-  --grid-guide-color: rgba(0, 0, 0, 0.08);
+  --grid-guide-color: rgba(0, 0, 0, 0.15);
   --grid-guide-width: 1px;
 
   /* Container system - Vercel-style refined widths */
@@ -96,7 +96,7 @@
   --shadow-color: #000000;
 
   /* Grid system variables for dark mode - more subtle */
-  --grid-guide-color: rgba(255, 255, 255, 0.06);
+  --grid-guide-color: rgba(255, 255, 255, 0.15);
 }
 
 @theme inline {
@@ -253,79 +253,142 @@
   /* Responsive grid columns */
   @media (min-width: 640px) {
     .geist-grid[style*="--grid-cols-sm"] {
-      grid-template-columns: repeat(var(--grid-cols-sm), minmax(0, 1fr));
+      grid-template-columns: repeat(
+        var(--grid-cols-sm),
+        minmax(0, 1fr)
+      ) !important;
     }
   }
 
   @media (min-width: 768px) {
     .geist-grid[style*="--grid-cols-md"] {
-      grid-template-columns: repeat(var(--grid-cols-md), minmax(0, 1fr));
+      grid-template-columns: repeat(
+        var(--grid-cols-md),
+        minmax(0, 1fr)
+      ) !important;
     }
   }
 
   @media (min-width: 1024px) {
     .geist-grid[style*="--grid-cols-lg"] {
-      grid-template-columns: repeat(var(--grid-cols-lg), minmax(0, 1fr));
+      grid-template-columns: repeat(
+        var(--grid-cols-lg),
+        minmax(0, 1fr)
+      ) !important;
     }
   }
 
   /* Responsive grid rows */
   @media (min-width: 640px) {
     .geist-grid[style*="--grid-rows-sm"] {
-      grid-template-rows: repeat(var(--grid-rows-sm), auto);
+      grid-template-rows: repeat(var(--grid-rows-sm), auto) !important;
     }
   }
 
   @media (min-width: 768px) {
     .geist-grid[style*="--grid-rows-md"] {
-      grid-template-rows: repeat(var(--grid-rows-md), auto);
+      grid-template-rows: repeat(var(--grid-rows-md), auto) !important;
     }
   }
 
   @media (min-width: 1024px) {
     .geist-grid[style*="--grid-rows-lg"] {
-      grid-template-rows: repeat(var(--grid-rows-lg), auto);
+      grid-template-rows: repeat(var(--grid-rows-lg), auto) !important;
     }
   }
 
   /* Responsive cell positioning */
   @media (min-width: 640px) {
     .geist-grid-cell-responsive-col[style*="--cell-col-sm"] {
-      grid-column: var(--cell-col-sm);
+      grid-column: var(--cell-col-sm) !important;
     }
     .geist-grid-cell-responsive-row[style*="--cell-row-sm"] {
-      grid-row: var(--cell-row-sm);
+      grid-row: var(--cell-row-sm) !important;
     }
   }
 
   @media (min-width: 768px) {
     .geist-grid-cell-responsive-col[style*="--cell-col-md"] {
-      grid-column: var(--cell-col-md);
+      grid-column: var(--cell-col-md) !important;
     }
     .geist-grid-cell-responsive-row[style*="--cell-row-md"] {
-      grid-row: var(--cell-row-md);
+      grid-row: var(--cell-row-md) !important;
     }
   }
 
   @media (min-width: 1024px) {
     .geist-grid-cell-responsive-col[style*="--cell-col-lg"] {
-      grid-column: var(--cell-col-lg);
+      grid-column: var(--cell-col-lg) !important;
     }
     .geist-grid-cell-responsive-row[style*="--cell-row-lg"] {
-      grid-row: var(--cell-row-lg);
+      grid-row: var(--cell-row-lg) !important;
     }
   }
 
   /* Guide cells use display: contents to participate in the grid */
   .geist-grid-guides {
     display: contents;
+    /* Ensure guides container is visible */
+    visibility: visible;
   }
 
   /* Individual guide cells are positioned in the grid */
   .geist-guide-cell {
-    position: relative;
+    position: absolute;
     pointer-events: none;
     z-index: 0; /* Below content cells */
+    /* Ensure consistent border rendering */
+    box-sizing: border-box;
+  }
+
+  /* Clip guide cells that are outside the visible grid structure */
+  /* This prevents overlapping borders when guides are rendered for maxRows/maxColumns
+     but grid shows fewer rows/columns at different breakpoints */
+  .geist-grid {
+    overflow: hidden;
+    /* Ensure grid doesn't create implicit tracks for guides outside bounds */
+    grid-auto-rows: 0;
+    grid-auto-columns: 0;
+  }
+
+  /* Hide guide cells positioned outside the current grid structure */
+  /* For responsive grids: sm=1col/6rows, md=2cols/3rows, lg=3cols/2rows */
+  /* Hide guides with data-col/data-row greater than current breakpoint's grid */
+
+  /* Small: Hide guides outside col 1, rows 1-6 */
+  @media (min-width: 640px) and (max-width: 767px) {
+    .geist-grid[style*="--grid-cols-sm"]
+      .geist-guide-cell[data-col]:not([data-col="1"]) {
+      display: none !important;
+    }
+  }
+
+  /* Medium: Hide guides outside cols 1-2, rows 1-3 */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .geist-grid[style*="--grid-cols-md"]
+      .geist-guide-cell[data-col]:not([data-col="1"]):not([data-col="2"]) {
+      display: none !important;
+    }
+    .geist-grid[style*="--grid-rows-md"]
+      .geist-guide-cell[data-row]:not([data-row="1"]):not([data-row="2"]):not(
+        [data-row="3"]
+      ) {
+      display: none !important;
+    }
+  }
+
+  /* Large: Hide guides outside cols 1-3, rows 1-2 */
+  @media (min-width: 1024px) {
+    .geist-grid[style*="--grid-cols-lg"]
+      .geist-guide-cell[data-col]:not([data-col="1"]):not([data-col="2"]):not(
+        [data-col="3"]
+      ) {
+      display: none !important;
+    }
+    .geist-grid[style*="--grid-rows-lg"]
+      .geist-guide-cell[data-row]:not([data-row="1"]):not([data-row="2"]) {
+      display: none !important;
+    }
   }
 
   /* Grid cells */
@@ -372,9 +435,12 @@
     }
 
     /* Override: Show guides on mobile when opt-in class is present */
-    .show-guides-on-mobile .geist-grid-guides,
+    .show-guides-on-mobile .geist-grid-guides {
+      display: contents !important;
+    }
     .show-guides-on-mobile .geist-guide-cell {
       display: block !important;
+      position: absolute !important;
     }
 
     .show-guides-on-mobile .geist-grid-cross {
@@ -386,6 +452,10 @@
         var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
       border-left: var(--geist-grid-guide-width, 1px) solid
         var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
+      border-right: var(--geist-grid-guide-width, 1px) solid
+        var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
+      border-bottom: var(--geist-grid-guide-width, 1px) solid
+        var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
     }
 
     .show-guides-on-mobile .geist-grid-cell-solid {
@@ -394,34 +464,5 @@
       border-bottom: var(--geist-grid-guide-width, 1px) solid
         var(--geist-grid-guide-color, rgba(255, 255, 255, 0.1)) !important;
     }
-  }
-}
-
-/* Beam animations */
-@keyframes beam-horizontal {
-  0% {
-    left: -25%;
-  }
-  100% {
-    left: 125%;
-  }
-}
-
-@keyframes beam-vertical {
-  0% {
-    top: -25%;
-  }
-  100% {
-    top: 125%;
-  }
-}
-
-@keyframes glow-pulse {
-  0%,
-  100% {
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.5;
   }
 }

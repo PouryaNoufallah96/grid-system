@@ -103,8 +103,7 @@ export function ProductsSection() {
           <Container size="xl">
             <Grid columns={3} rows={4}>
               {/* Section marker - top left */}
-              <GridCross column={1} row={1} size={24} position="top-left" />
-
+              <GridCross column={1} row={1} size={2} position="top-left" />
               {/* Section header - spans row 1-2, col 1 only */}
               <GridCell
                 column={1}
@@ -121,7 +120,6 @@ export function ProductsSection() {
                   user.
                 </p>
               </GridCell>
-
               {/* Agents card - row 1-2, col 2 */}
               <GridCell column={2} row="1/3" className="p-8 flex flex-col">
                 <h3 className="text-xl font-semibold text-white">Agents</h3>
@@ -143,7 +141,6 @@ export function ProductsSection() {
                   </div>
                 </div>
               </GridCell>
-
               {/* AI Apps card - row 1-2, col 3 */}
               <GridCell column={3} row="1/3" className="p-8 flex flex-col">
                 <h3 className="text-xl font-semibold text-white">AI Apps</h3>
@@ -172,7 +169,6 @@ export function ProductsSection() {
                   ))}
                 </div>
               </GridCell>
-
               {/* Web Apps card - row 3-4, col 1 */}
               <GridCell column={1} row="3/5" className="p-8 flex flex-col">
                 <h3 className="text-xl font-semibold text-white">Web Apps</h3>
@@ -203,7 +199,6 @@ export function ProductsSection() {
                   </div>
                 </div>
               </GridCell>
-
               {/* Composable Commerce card - row 3-4, col 2 */}
               <GridCell column={2} row="3/5" className="p-8 flex flex-col">
                 <h3 className="text-xl font-semibold text-white">
@@ -229,7 +224,6 @@ export function ProductsSection() {
                   </div>
                 </div>
               </GridCell>
-
               {/* Multi-tenant Platform card - row 3-4, col 3 */}
               <GridCell column={3} row="3/5" className="p-8 flex flex-col">
                 <h3 className="text-xl font-semibold text-white">
@@ -264,17 +258,12 @@ export function ProductsSection() {
                   ))}
                 </div>
               </GridCell>
-
-              {/* Section marker - bottom right */}
-              <GridCross column={3} row={4} size={24} position="bottom-right" />
             </Grid>
           </Container>
 
           <Container size="xl">
             {/* Framework infrastructure row */}
             <Grid columns={3} rows={2}>
-              <GridCross column={1} row={1} size={24} position="top-left" />
-
               <GridCell
                 column={1}
                 row="1/3"
@@ -310,16 +299,12 @@ export function ProductsSection() {
                   </span>
                 </h3>
               </GridCell>
-
-              <GridCross column={3} row={2} size={24} position="bottom-right" />
             </Grid>
           </Container>
 
           <Container size="xl">
             {/* Scale your enterprise row */}
             <Grid columns={3} rows={1}>
-              <GridCross column={1} row={1} size={24} position="top-left" />
-
               {/* Full-width centered content, SOLID */}
               <GridCell
                 column="1/4"
@@ -366,8 +351,6 @@ export function ProductsSection() {
                   Security
                 </span>
               </GridCell>
-
-              <GridCross column={3} row={1} size={24} position="bottom-right" />
             </Grid>
           </Container>
         </GridSystem>

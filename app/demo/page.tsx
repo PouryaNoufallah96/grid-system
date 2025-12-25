@@ -1,9 +1,9 @@
 "use client";
 
-import { GridSystem } from "@/components/grid/grid-system";
-import { Grid } from "@/components/grid/grid";
-import { GridCell } from "@/components/grid/grid-cell";
-import { GridCross } from "@/components/grid/grid-cross";
+// Pattern 1: Separate imports (better for tree-shaking) - CURRENT PATTERN
+import { GridSystem, Grid, GridCell, GridCross } from "@/components/grid";
+// Pattern 2: Nested namespace (Geist/Vercel style) - also available:
+// import { Grid } from "@/components/grid"; // Then use Grid.System, Grid.Cell, Grid.Cross
 import { Container } from "@/components/ui/container";
 import { useState, useEffect } from "react";
 
@@ -47,7 +47,11 @@ export default function DemoPage() {
           <DemoSection
             title="1. Basic Grid (3×3)"
             description="Simple grid with numbered cells"
-            code={`<GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+            code={`<GridSystem 
+  guideWidth={1} 
+  guideColor="var(--grid-guide-color)"
+  showGuidesOnMobile={true}
+>
   <Grid columns={3} rows={3}>
     <GridCell column={1} row={1}>1</GridCell>
     <GridCell column={2} row={1}>2</GridCell>
@@ -61,7 +65,11 @@ export default function DemoPage() {
   </Grid>
 </GridSystem>`}
           >
-            <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+            <GridSystem
+              guideWidth={1}
+              guideColor="var(--grid-guide-color)"
+              showGuidesOnMobile={true}
+            >
               <Grid columns={3} rows={3}>
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n, i) => (
                   <GridCell
@@ -117,7 +125,11 @@ export default function DemoPage() {
   </Grid>
 </GridSystem>`}
           >
-            <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+            <GridSystem
+              guideWidth={1}
+              guideColor="var(--grid-guide-color)"
+              showGuidesOnMobile={true}
+            >
               <Grid
                 columns={{ sm: 1, md: 2, lg: 3 }}
                 rows={{ sm: 6, md: 3, lg: 2 }}
@@ -574,6 +586,76 @@ export default function DemoPage() {
               full width with a transparent background and NO guides inside
               (using the layered approach).
             </p>
+          </DemoSection>
+
+          {/* Section 14: Nested Pattern (Grid.Cross, Grid.Cell, Grid.System) */}
+          <DemoSection
+            title="14. Nested Pattern (Geist/Vercel Style)"
+            description="✨ NEW: Use Grid.Cross, Grid.Cell, Grid.System for better discoverability. Both patterns work - choose based on preference!"
+            code={`// Pattern 1: Separate imports (better for tree-shaking)
+import { GridSystem, Grid, GridCell, GridCross } from '@/components/grid';
+
+// Pattern 2: Nested namespace (Geist/Vercel style - better discoverability)
+import { Grid } from '@/components/grid';
+
+<Grid.System guideWidth={1} guideColor="var(--grid-guide-color)">
+  <Grid columns={3} rows={3}>
+    <Grid.Cross column={1} row={1} size={24} position="top-left" />
+    <Grid.Cell column={1} row={1} solid className="bg-blue-600/20">
+      Cell 1
+    </Grid.Cell>
+    <Grid.Cell column={2} row={2} solid className="bg-green-600/20">
+      Cell 2
+    </Grid.Cell>
+    <Grid.Cross column={3} row={3} size={24} position="bottom-right" />
+  </Grid>
+</Grid.System>`}
+          >
+            {/* Using separate imports for now - nested pattern works when imported as namespace */}
+            <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
+              <Grid columns={3} rows={3}>
+                <GridCross column={1} row={1} size={24} position="top-left" />
+                <GridCell column={1} row={1} solid className="bg-blue-600/20">
+                  <div className="flex h-24 items-center justify-center text-sm font-medium">
+                    Cell 1
+                  </div>
+                </GridCell>
+                <GridCell column={2} row={2} solid className="bg-green-600/20">
+                  <div className="flex h-24 items-center justify-center text-sm font-medium">
+                    Cell 2
+                  </div>
+                </GridCell>
+                <GridCross
+                  column={3}
+                  row={3}
+                  size={24}
+                  position="bottom-right"
+                />
+              </Grid>
+            </GridSystem>
+            <div className="mt-4 space-y-2">
+              <p className="text-sm text-blue-400 bg-blue-500/10 p-3 rounded border border-blue-500/20">
+                <strong>✨ Nested Pattern Benefits:</strong>
+              </p>
+              <ul className="text-sm text-gray-300 space-y-1 ml-4 list-disc">
+                <li>
+                  Better discoverability - type{" "}
+                  <code className="bg-black/50 px-1 rounded">Grid.</code> to see
+                  all components
+                </li>
+                <li>
+                  Clearer relationships - namespace shows components belong
+                  together
+                </li>
+                <li>Matches Geist UI and Vercel patterns</li>
+                <li>One import instead of multiple</li>
+              </ul>
+              <p className="text-sm text-gray-400 mt-3">
+                <strong>Note:</strong> Both patterns work! Separate exports are
+                better for tree-shaking, nested pattern is better for
+                discoverability.
+              </p>
+            </div>
           </DemoSection>
         </div>
       </Container>

@@ -1,7 +1,6 @@
 import { GridSystem } from "@/components/grid/grid-system";
 import { Grid } from "@/components/grid/grid";
 import { GridCell } from "@/components/grid/grid-cell";
-import { GridCross } from "@/components/grid/grid-cross";
 import { Container } from "@/components/ui/container";
 import { RefreshCw, Zap } from "lucide-react";
 
@@ -28,12 +27,12 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="bg-zinc-950 text-white">
+    <section className="bg-black text-white">
       {/* Mobile Layout */}
       <div className="md:hidden px-6 py-12 space-y-10">
         {features.map((feature) => (
           <div key={feature.title} className="text-center">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 mb-6">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-black border border-white/10 mb-6">
               <feature.icon className="w-6 h-6 text-white" strokeWidth={1.5} />
             </div>
             <h3 className="text-lg font-semibold text-white">
@@ -51,8 +50,6 @@ export function FeaturesSection() {
         <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
           <Container size="xl">
             <Grid columns={3} rows={1}>
-              <GridCross column={1} row={1} size={24} position="top-left" />
-
               {features.map((feature, index) => (
                 <GridCell
                   key={feature.title}
@@ -60,7 +57,7 @@ export function FeaturesSection() {
                   row={1}
                   className="p-10 text-center"
                 >
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 mb-6">
+                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-black border border-white/10 mb-6">
                     <feature.icon
                       className="w-6 h-6 text-white"
                       strokeWidth={1.5}
@@ -74,8 +71,6 @@ export function FeaturesSection() {
                   </p>
                 </GridCell>
               ))}
-
-              <GridCross column={3} row={1} size={24} position="bottom-right" />
             </Grid>
           </Container>
         </GridSystem>

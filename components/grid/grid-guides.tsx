@@ -49,10 +49,17 @@ export function GridGuides({
         const x = (index % columns) + 1;
         const y = Math.floor(index / columns) + 1;
 
+        // Don't draw right border on last column (grid will draw it)
+        // Don't draw bottom border on last row (grid will draw it)
+        const isLastColumn = x === columns;
+        const isLastRow = y === rows;
+
         return (
           <div
             key={`guide-${x}-${y}`}
             className="geist-guide-cell"
+            data-col={x}
+            data-row={y}
             style={
               {
                 // Absolutely positioned to fill grid cell without affecting layout
@@ -63,13 +70,16 @@ export function GridGuides({
                 gridColumnEnd: "span 1",
                 gridRowStart: y,
                 gridRowEnd: "span 1",
-                // Draw right and bottom borders (grid has top and left)
-                borderRight: showVerticalGuides
-                  ? `${guideWidth}px solid ${guideColor}`
-                  : undefined,
-                borderBottom: showHorizontalGuides
-                  ? `${guideWidth}px solid ${guideColor}`
-                  : undefined,
+                // Draw right border except on last column (grid draws it)
+                borderRight:
+                  showVerticalGuides && !isLastColumn
+                    ? `${guideWidth}px solid ${guideColor}`
+                    : undefined,
+                // Draw bottom border except on last row (grid draws it)
+                borderBottom:
+                  showHorizontalGuides && !isLastRow
+                    ? `${guideWidth}px solid ${guideColor}`
+                    : undefined,
                 pointerEvents: "none",
                 zIndex: 0, // Below content cells
               } as React.CSSProperties
