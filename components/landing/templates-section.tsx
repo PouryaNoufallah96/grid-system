@@ -328,8 +328,6 @@ export function TemplatesSection() {
 
               {/* Empty row 5 for spacing */}
               <GridCell column="1/4" row={5} solid className="h-8 bg-black" />
-
-              <GridCross column={3} row={5} size={24} position="bottom-right" />
             </Grid>
           </Container>
         </GridSystem>

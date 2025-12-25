@@ -78,15 +78,7 @@ export interface GridCrossProps {
   className?: string;
 }
 
-// Grid Guides Props (internal)
-// GridGuidesProps moved to grid-guides.tsx to avoid module resolution issues
-// export interface GridGuidesProps {
-//   columns: number
-//   rows: number
-//   hideGuides?: "row" | "column" | "all" | boolean
-//   guideWidth: number
-//   guideColor: string
-// }
+// GridGuidesProps is defined inline in grid-guides.tsx (internal component, not exported)
 
 // Context types
 export interface GridSystemContextValue {

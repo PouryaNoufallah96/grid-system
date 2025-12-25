@@ -113,8 +113,6 @@ export function AISection() {
                   deploy robust, secure, and performant AI applications quickly.
                 </p>
               </GridCell>
-
-              <GridCross column={3} row={1} size={24} position="bottom-right" />
             </Grid>
           </Container>
 
@@ -144,16 +142,12 @@ export function AISection() {
                   </button>
                 </GridCell>
               ))}
-
-              <GridCross column={3} row={2} size={24} position="bottom-right" />
             </Grid>
           </Container>
 
           <Container size="xl">
             {/* SDK section */}
             <Grid columns={3} rows={2}>
-              <GridCross column={1} row={1} size={24} position="top-left" />
-
               <GridCell column="1/4" row={1} solid className="p-8 bg-black">
                 <h3 className="text-2xl md:text-3xl font-bold tracking-tight leading-tight text-white text-balance max-w-4xl">
                   From the creators of Next.js, the Vercel AI SDK gives you the
@@ -179,8 +173,6 @@ export function AISection() {
                   </p>
                 </GridCell>
               ))}
-
-              <GridCross column={3} row={2} size={24} position="bottom-right" />
             </Grid>
           </Container>
         </GridSystem>

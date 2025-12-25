@@ -1,7 +1,6 @@
 import { GridSystem } from "@/components/grid/grid-system";
 import { Grid } from "@/components/grid/grid";
 import { GridCell } from "@/components/grid/grid-cell";
-import { GridCross } from "@/components/grid/grid-cross";
 import { Container } from "@/components/ui/container";
 import { ArrowRight } from "lucide-react";
 
@@ -97,9 +96,6 @@ export function TestimonialsSection() {
         <GridSystem guideWidth={1} guideColor="var(--grid-guide-color)">
           <Container size="xl">
             <Grid columns={3} rows={3}>
-              {/* Section marker - top left */}
-              <GridCross column={1} row={1} size={24} position="top-left" />
-
               {testimonials.map((item, index) => {
                 const col = (index % 3) + 1;
                 const row = Math.floor(index / 3) + 1;
@@ -136,9 +132,6 @@ export function TestimonialsSection() {
                   </GridCell>
                 );
               })}
-
-              {/* Section marker - bottom right */}
-              <GridCross column={3} row={3} size={24} position="bottom-right" />
             </Grid>
           </Container>
         </GridSystem>
